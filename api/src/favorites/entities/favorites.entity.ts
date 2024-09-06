@@ -12,8 +12,11 @@ export class Favorite {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  src: string;
+  @Column({ name: 'cat_id' })
+  catID: string;
+
+  @Column({ name: 'cat_url' })
+  catUrl: string;
 
   @ManyToOne(() => User, (user) => user.favorites, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })

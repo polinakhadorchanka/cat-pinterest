@@ -1,14 +1,18 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
   ParseIntPipe,
   Post,
   Query,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { FavoritesService } from './favorites.service';
-import { AuthGuard } from '../conception/guards/auth.guard';
+import { CreateFavoritesDto } from './dto/create-favorites.dto';
+import { AuthGuard } from '../guards/auth.guard';
+import { CanDeleteGuard } from '../guards/canDelete.guard';
 
 @Controller('favorites')
 export class FavoritesController {
@@ -16,21 +20,22 @@ export class FavoritesController {
 
   @Get()
   @UseGuards(AuthGuard)
-  findAll(@Query('page', ParseIntPipe) page: number) {
-    console.log(page, typeof page);
-    return this.favoritesService.findAll();
+  findAll(@Query('page', ParseIntPipe) page: number, @Request() { user }: any) {
+    return this.favoritesService.findAll(user, page);
   }
 
   @Post()
   @UseGuards(AuthGuard)
-  postFavorite() {
-    return this.favoritesService.addFavorite();
+  create(
+    @Body() createFavoritesDto: CreateFavoritesDto,
+    @Request() { user }: any,
+  ) {
+    return this.favoritesService.addFavorite(user, createFavoritesDto);
   }
 
   @Delete()
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, CanDeleteGuard)
   deleteFavorite(@Query('id', ParseIntPipe) id: number) {
-    console.log(id, typeof id);
-    return this.favoritesService.deleteFavorite();
+    return this.favoritesService.deleteFavorite(id);
   }
 }

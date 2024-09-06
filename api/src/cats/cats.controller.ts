@@ -7,7 +7,6 @@ export class CatsController {
 
   @Get()
   findAll(@Query('page', ParseIntPipe) page: number) {
-    console.log(page, typeof page);
-    return this.catsService.findAll();
+    return this.catsService.findAll(page);
   }
 }

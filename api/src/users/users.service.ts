@@ -27,4 +27,10 @@ export class UsersService {
   async remove(id: number) {
     return await this.usersRepository.delete(id);
   }
+
+  async getUserByToken(token: string) {
+    return await this.usersRepository.findOne({
+      where: { token },
+    });
+  }
 }

@@ -1,24 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { Cat } from './entities/cats.entity';
+import { catchError, firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class CatsService {
-  findAll() {
-    return [
-      {
-        id: 1,
-        name: 'Marry',
-        age: 1,
-      },
-      {
-        id: 2,
-        name: 'Cat',
-        age: 4,
-      },
-      {
-        id: 3,
-        name: 'Angle',
-        age: 5,
-      },
-    ];
+  constructor(private readonly httpService: HttpService) {}
+
+  async findAll(page: number = 0, limit: number = 10): Promise<Cat[]> {
+    const { data } = await firstValueFrom(
+      this.httpService
+        .get<Cat[]>('https://api.thecatapi.com/v1/images/search', {
+          params: {
+            page,
+            limit,
+            api_key: process.env.API_KEY,
+          },
+        })
+        .pipe(
+          catchError(() => {
+            throw new InternalServerErrorException("Couldn't find the cats");
+          }),
+        ),
+    );
+    return data;
   }
 }
