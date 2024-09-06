@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class CatsService {
+export class FavoritesService {
   findAll() {
     return [
       {
@@ -20,5 +20,19 @@ export class CatsService {
         age: 5,
       },
     ];
+  }
+
+  addFavorite() {
+    return {
+      id: 1,
+      name: 'Marry',
+      age: 1,
+    };
+  }
+
+  deleteFavorite() {
+    return {
+      id: 1,
+    };
   }
 }
