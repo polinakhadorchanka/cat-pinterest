@@ -1,16 +1,14 @@
 import { Module } from '@nestjs/common';
 import { CatsModule } from './cats/cats.module';
-import { UserModule } from './user/user.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TestModule } from './test/test.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     CatsModule,
-    UserModule,
+    UsersModule,
     FavoritesModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
@@ -27,8 +25,6 @@ import { UsersModule } from './users/users.module';
       }),
       inject: [ConfigService],
     }),
-    TestModule,
-    UsersModule,
   ],
   controllers: [],
   providers: [],
