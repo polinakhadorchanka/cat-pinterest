@@ -14,6 +14,7 @@ export default {
     },
     boxShadow: {
       custom: '0px 4px 4px 0px #0000003D',
+      box: '0px 9px 16px 0px rgba(0, 0, 0, 0.18), 0px 6px 5px 0px rgba(0, 0, 0, 0.24)',
     },
     extend: {
       colors: {
@@ -22,6 +23,10 @@ export default {
       },
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
+      },
+      backgroundImage: {
+        like: "url('./src/assets/svg/heart.svg')",
+        like_fill: "url('./src/assets/svg/heart-fill.svg')",
       },
     },
   },

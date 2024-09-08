@@ -13,19 +13,13 @@ export class FavoritesService {
   ) {}
 
   async findOne(id: number) {
-    console.log(
-      await this.favoritesRepository.findOne({
-        where: { id },
-        relations: { user: true },
-      }),
-    );
     return await this.favoritesRepository.findOne({
       where: { id },
       relations: { user: true },
     });
   }
 
-  async findAll(user: User, page: number = 0, limit: number = 10) {
+  async findAll(user: User, page: number = 0, limit: number = 15) {
     return await this.favoritesRepository.find({
       where: {
         user: {
