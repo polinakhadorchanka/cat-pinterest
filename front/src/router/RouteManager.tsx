@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import AllCats from '../pages/allCats/AllCats.tsx';
+import Cats from '../pages/cats/Cats.tsx';
 import Favorites from '../pages/favorites/Favorites.tsx';
 
 const RouteManager = () => {
   return (
     <Routes>
-      <Route path={'/'} element={<AllCats />} />
+      <Route path={'/'} element={<Cats />} />
       <Route path={'/favorites'} element={<Favorites />} />
     </Routes>
   );

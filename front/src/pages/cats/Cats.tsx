@@ -4,20 +4,26 @@ import { useTypedSelector } from '../../hooks/useTypedSelector.ts';
 import { useEffect } from 'react';
 import { Card } from '../../features';
 
-const AllCats = () => {
-  const { getCats } = useActions();
-  const { cats, page, isProcessing, error } = useTypedSelector(
-    (state) => state.cats,
+const Cats = () => {
+  const { getCats, getFavorites } = useActions();
+  const { user } = useTypedSelector((state) => state.user);
+  const { cats, ...catsState } = useTypedSelector((state) => state.cats);
+  const { favorites, ...favoritesState } = useTypedSelector(
+    (state) => state.favorites,
   );
 
   useEffect(() => {
-    getCats({ page });
-  }, [page]);
+    getCats({ page: catsState.page });
+  }, [catsState.page]);
+
+  useEffect(() => {
+    if (user) getFavorites({ token: user.token, page: favoritesState.page });
+  }, [user]);
 
   return (
     <Layout>
       <div className={'container mt-8 sm:mt-12'}>
-        {isProcessing ? (
+        {catsState.isProcessing ? (
           <div className={'text-center font-roboto text-xs md:text-sm'}>
             ...загружаем еще котиков...
           </div>
@@ -36,4 +42,4 @@ const AllCats = () => {
   );
 };
 
-export default AllCats;
+export default Cats;

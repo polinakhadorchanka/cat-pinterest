@@ -9,9 +9,6 @@ const apiGetCats = (page: number = 0): Promise<Cat[]> => {
         params: {
           page,
         },
-        headers: {
-          authorization: `Bearer ${localStorage.getItem('token') ?? ''}`,
-        },
       });
       resolve(data);
     } catch (error: any) {

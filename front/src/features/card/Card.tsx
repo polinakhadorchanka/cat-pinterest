@@ -18,7 +18,7 @@ const Card: FC<CardProps> = ({ cat }) => {
         alt={cat.url}
       />
 
-      <Like />
+      <Like isActive={false} />
     </div>
   );
 };

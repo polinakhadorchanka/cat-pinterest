@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Favorite } from '../../types/favorite.ts';
 import { User } from '../../types/user.ts';
+import { getUser } from './user.action.ts';
 
 interface UserState {
   user: User | null;
@@ -15,10 +15,10 @@ const initialState: UserState = {
 };
 
 export const favoritesSlice = createSlice({
-  name: 'favorites',
+  name: 'user',
   initialState,
   reducers: {
-    clearFavoritesStore: () => initialState,
+    clearUserStore: () => initialState,
     clearError: (state) => {
       state.error = null;
     },
@@ -28,17 +28,14 @@ export const favoritesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getFavorites.pending, (state) => {
+      .addCase(getUser.pending, (state) => {
         state.isProcessing = true;
       })
-      .addCase(
-        getFavorites.fulfilled,
-        (state, action: PayloadAction<Favorite[]>) => {
-          state.isProcessing = false;
-          state.favorites = action.payload;
-        },
-      )
-      .addCase(getFavorites.rejected, (state, action: any) => {
+      .addCase(getUser.fulfilled, (state, action: PayloadAction<User>) => {
+        state.isProcessing = false;
+        state.user = action.payload;
+      })
+      .addCase(getUser.rejected, (state, action: any) => {
         state.isProcessing = false;
         state.error = action.payload.message;
       });

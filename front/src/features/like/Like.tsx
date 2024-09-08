@@ -1,15 +1,10 @@
-import { Cat } from '../../types/cat.ts';
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 
 interface LikeProps {
-  cat: Cat;
+  isActive: boolean;
 }
 
-const Like: FC<LikeProps> = () => {
-  const isActive = useMemo(() => {
-    return false;
-  }, []);
-
+const Like: FC<LikeProps> = ({ isActive }) => {
   return (
     <div
       className={`absolute hidden group-hover:block cursor-pointer
