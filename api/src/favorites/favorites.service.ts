@@ -13,20 +13,14 @@ export class FavoritesService {
   ) {}
 
   async findOne(id: number) {
-    console.log(
-      await this.favoritesRepository.findOne({
-        where: { id },
-        relations: { user: true },
-      }),
-    );
     return await this.favoritesRepository.findOne({
       where: { id },
       relations: { user: true },
     });
   }
 
-  async findAll(user: User, page: number = 0, limit: number = 10) {
-    return await this.favoritesRepository.find({
+  async findAll(user: User, page: number = 0, limit: number = 15) {
+    const favorites = await this.favoritesRepository.find({
       where: {
         user: {
           id: user.id,
@@ -35,17 +29,56 @@ export class FavoritesService {
       skip: limit * page,
       take: limit,
     });
+
+    const allFavorites = await this.favoritesRepository.find({
+      where: {
+        user: {
+          id: user.id,
+        },
+      },
+    });
+
+    const formatted = favorites.map((favorite) => {
+      return {
+        id: favorite.id,
+        cat: { id: favorite.catID, url: favorite.catUrl },
+      };
+    });
+
+    const favoritesIDs = allFavorites.map((favorite) => {
+      return {
+        id: favorite.id,
+        catID: favorite.catID,
+      };
+    });
+
+    return {
+      favoritesIDs,
+      favorites: formatted,
+      pageCount: Math.ceil(favoritesIDs.length / limit) - 1,
+    };
   }
 
   async addFavorite(user: User, { id, url }: CreateFavoritesDto) {
-    return await this.favoritesRepository.save({
+    const data = await this.favoritesRepository.save({
       user: user,
       catID: id,
       catUrl: url,
     });
+
+    return {
+      id: data.id,
+      cat: {
+        id: data.catID,
+        url: data.catUrl,
+      },
+    };
   }
 
   async deleteFavorite(id: number) {
-    return await this.favoritesRepository.delete(id);
+    const favorite = await this.findOne(id);
+    const data = await this.favoritesRepository.delete(id);
+
+    if (data) return favorite;
   }
 }

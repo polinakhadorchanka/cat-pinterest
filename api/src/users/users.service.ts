@@ -11,11 +11,13 @@ export class UsersService {
   ) {}
 
   async create() {
-    const token = uuid();
+    const key = uuid();
 
-    return await this.usersRepository.save({
-      token,
+    const { token } = await this.usersRepository.save({
+      token: key,
     });
+
+    return { token };
   }
 
   async find(id: number) {

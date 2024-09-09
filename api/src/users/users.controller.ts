@@ -19,11 +19,11 @@ export class UsersController {
 
   @Get(':id')
   find(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.find(+id);
+    return this.usersService.find(id);
   }
 
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(+id);
+    return this.usersService.remove(id);
   }
 }

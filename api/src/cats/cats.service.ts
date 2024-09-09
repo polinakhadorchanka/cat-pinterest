@@ -7,7 +7,7 @@ import { catchError, firstValueFrom } from 'rxjs';
 export class CatsService {
   constructor(private readonly httpService: HttpService) {}
 
-  async findAll(page: number = 0, limit: number = 10): Promise<Cat[]> {
+  async findAll(page: number = 0, limit: number = 15): Promise<Cat[]> {
     const { data } = await firstValueFrom(
       this.httpService
         .get<Cat[]>('https://api.thecatapi.com/v1/images/search', {
@@ -23,6 +23,7 @@ export class CatsService {
           }),
         ),
     );
+
     return data;
   }
 }
