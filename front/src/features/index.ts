@@ -1,3 +1,3 @@
-import Card from './card/Card.tsx';
+import Like from './like/Like.tsx';
 
-export { Card };
+export { Like };

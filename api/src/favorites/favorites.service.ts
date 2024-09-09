@@ -20,7 +20,7 @@ export class FavoritesService {
   }
 
   async findAll(user: User, page: number = 0, limit: number = 15) {
-    return await this.favoritesRepository.find({
+    const favorites = await this.favoritesRepository.find({
       where: {
         user: {
           id: user.id,
@@ -29,17 +29,55 @@ export class FavoritesService {
       skip: limit * page,
       take: limit,
     });
+
+    const allFavorites = await this.favoritesRepository.find({
+      where: {
+        user: {
+          id: user.id,
+        },
+      },
+    });
+
+    const formatted = favorites.map((favorite) => {
+      return {
+        id: favorite.id,
+        cat: { id: favorite.catID, url: favorite.catUrl },
+      };
+    });
+
+    const favoritesIDs = allFavorites.map((favorite) => {
+      return {
+        id: favorite.id,
+        catID: favorite.catID,
+      };
+    });
+
+    return {
+      favoritesIDs,
+      favorites: formatted,
+    };
   }
 
   async addFavorite(user: User, { id, url }: CreateFavoritesDto) {
-    return await this.favoritesRepository.save({
+    const data = await this.favoritesRepository.save({
       user: user,
       catID: id,
       catUrl: url,
     });
+
+    return {
+      id: data.id,
+      cat: {
+        id: data.catID,
+        url: data.catUrl,
+      },
+    };
   }
 
   async deleteFavorite(id: number) {
-    return await this.favoritesRepository.delete(id);
+    const favorite = await this.findOne(id);
+    const data = await this.favoritesRepository.delete(id);
+
+    if (data) return favorite;
   }
 }
