@@ -14,6 +14,7 @@ interface FavoritesState {
   favorites: Favorite[];
   favoritesIDs: FavoritesID[];
   page: number;
+  pageCount: number | null;
   isProcessing: boolean;
   error: string | null;
 }
@@ -22,6 +23,7 @@ const initialState: FavoritesState = {
   favorites: [],
   favoritesIDs: [],
   page: 0,
+  pageCount: null,
   isProcessing: false,
   error: null,
 };
@@ -34,7 +36,7 @@ export const favoritesSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
-    pageInc: (state) => {
+    favoritePageInc: (state) => {
       state.page = state.page + 1;
     },
   },
@@ -47,7 +49,8 @@ export const favoritesSlice = createSlice({
         getFavorites.fulfilled,
         (state, action: PayloadAction<FavoritesResponse>) => {
           state.isProcessing = false;
-          state.favorites = action.payload.favorites;
+          state.pageCount = action.payload.pageCount;
+          state.favorites = [...state.favorites, ...action.payload.favorites];
           state.favoritesIDs = action.payload.favoritesIDs;
         },
       )

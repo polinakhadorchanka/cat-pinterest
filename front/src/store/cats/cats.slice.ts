@@ -24,7 +24,7 @@ export const catsSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
-    pageInc: (state) => {
+    catPageInc: (state) => {
       state.page = state.page + 1;
     },
   },

@@ -6,6 +6,7 @@ import { Cat } from '../../types/cat.ts';
 const apiGetFavorites = (
   token: string,
   page: number = 0,
+  limit: number = 20,
 ): Promise<FavoritesResponse> => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -14,6 +15,7 @@ const apiGetFavorites = (
         {
           params: {
             page,
+            limit,
           },
           headers: {
             authorization: `Bearer ${token}`,
@@ -75,9 +77,9 @@ const apiDeleteFromFavorites = (
 
 export const getFavorites = createAsyncThunk(
   '/favorites',
-  async (data: { token: string; page: number }, thunkAPI) => {
+  async (data: { token: string; page: number; limit?: number }, thunkAPI) => {
     try {
-      return await apiGetFavorites(data.token, data.page);
+      return await apiGetFavorites(data.token, data.page, data.limit);
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error);
     }

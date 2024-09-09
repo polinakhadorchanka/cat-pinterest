@@ -55,6 +55,7 @@ export class FavoritesService {
     return {
       favoritesIDs,
       favorites: formatted,
+      pageCount: Math.ceil(favoritesIDs.length / limit) - 1,
     };
   }
 

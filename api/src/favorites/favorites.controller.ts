@@ -20,8 +20,16 @@ export class FavoritesController {
 
   @Get()
   @UseGuards(AuthGuard)
-  findAll(@Query('page', ParseIntPipe) page: number, @Request() { user }: any) {
-    return this.favoritesService.findAll(user, page);
+  findAll(
+    @Query('page') page: string,
+    @Query('limit') limit: string,
+    @Request() { user }: any,
+  ) {
+    return this.favoritesService.findAll(
+      user,
+      page ? +page : undefined,
+      limit ? +limit : undefined,
+    );
   }
 
   @Post()

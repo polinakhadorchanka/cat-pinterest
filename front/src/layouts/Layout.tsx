@@ -4,8 +4,10 @@ import { Header } from '../components';
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className={'w-full flex flex-col'}>
-      <Header />
-      <main>{children}</main>
+      <div className={'fixed w-full z-50'}>
+        <Header />
+      </div>
+      <main className={'mt-12 md:mt-16'}>{children}</main>
     </div>
   );
 };

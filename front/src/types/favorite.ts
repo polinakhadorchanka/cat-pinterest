@@ -13,4 +13,5 @@ export interface FavoritesID {
 export interface FavoritesResponse {
   favoritesIDs: FavoritesID[];
   favorites: Favorite[];
+  pageCount: number;
 }
