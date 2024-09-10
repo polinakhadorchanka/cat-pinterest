@@ -25,6 +25,12 @@ services:
       - cat-pinterest-net
     environment:
       NODE_ENV: prod
+      POSTGRES_HOST: cat-pinterest-api-pg
+      POSTGRES_PORT: 5432
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER: postgres
+      POSTGRES_DB: cat-pinterest
+      API_KEY: live_Bh0aMNugpoe8rU7o8api8ey5x3RVMx5aqWmruBIQX4QlbxWguGC7hKEM3KdlvQR5
     depends_on:
       cat-pinterest-api-pg:
         condition: service_healthy
@@ -38,6 +44,7 @@ services:
       - cat-pinterest-net
     environment:
       NODE_ENV: prod
+      VITE_API_URL: cat-pinterest-api
 
   cat-pinterest-api-pg:
     container_name: cat-pinterest-api-pg
@@ -45,9 +52,9 @@ services:
     networks:
       - cat-pinterest-net
     environment:
-      POSTGRES_PASSWORD: 1
+      POSTGRES_PASSWORD: 12345
       POSTGRES_USER: postgres
-      POSTGRES_DB: support_lk_db
+      POSTGRES_DB: cat-pinterest
     #      PG_DATA: /var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
