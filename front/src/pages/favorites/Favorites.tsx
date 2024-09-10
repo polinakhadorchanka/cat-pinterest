@@ -3,9 +3,9 @@ import { useActions } from '../../hooks/useActions.ts';
 import { useTypedSelector } from '../../hooks/useTypedSelector.ts';
 import { useEffect, useMemo, useState } from 'react';
 import CatList from '../../components/catList/CatList.tsx';
+import { LIMIT } from '../../types/constants.ts';
 
 const Favorites = () => {
-  const LIMIT = 15;
   const [currentLength, setCurrentLength] = useState<number>(0);
 
   const { getFavorites, favoritePageInc } = useActions();
@@ -19,22 +19,35 @@ const Favorites = () => {
   }, [favorites]);
 
   useEffect(() => {
-    if (user) getFavorites({ token: user.token, page: page, limit: LIMIT });
-  }, [user, page]);
+    if (cats.length !== currentLength) {
+      setCurrentLength(cats.length);
+    } else if (user && page === 0 && cats.length === 0) {
+      getFavorites({ token: user.token, page: page, limit: LIMIT });
+    }
+  }, [user]);
 
   useEffect(() => {
+    if (page === 0 && cats.length === 0) return;
+
+    if (cats.length !== currentLength) {
+      setCurrentLength(cats.length);
+      return;
+    }
+
     if (
-      cats.length > 0 &&
-      cats.length >= currentLength &&
+      user &&
+      page < pageCount - 1 &&
       document.documentElement.scrollHeight <= screen.height
     ) {
-      setCurrentLength(cats.length);
       nextPage();
-    } else setCurrentLength(cats.length);
-  }, [cats.length]);
+    }
+  }, [cats.length, currentLength]);
 
   const nextPage = () => {
-    favoritePageInc();
+    if (user) {
+      getFavorites({ token: user.token, page: page + 1, limit: LIMIT });
+      favoritePageInc();
+    }
   };
 
   return (
@@ -44,7 +57,7 @@ const Favorites = () => {
           cats={cats}
           isProcessing={isProcessing}
           nextPage={nextPage}
-          hasNextPage={!!(pageCount && page < pageCount)}
+          hasNextPage={page < pageCount - 1}
         />
       </div>
     </Layout>

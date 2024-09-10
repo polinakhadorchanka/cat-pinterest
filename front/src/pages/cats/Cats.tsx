@@ -4,6 +4,7 @@ import { useTypedSelector } from '../../hooks/useTypedSelector.ts';
 import { useEffect } from 'react';
 import CatList from '../../components/catList/CatList.tsx';
 import useScreenSize from '../../hooks/useScreenSize.ts';
+import { LIMIT } from '../../types/constants.ts';
 
 const Cats = () => {
   const screen = useScreenSize();
@@ -16,16 +17,16 @@ const Cats = () => {
   );
 
   useEffect(() => {
-    if (cats.length === 0) getCats({ page: catsState.page, limit: 15 });
+    if (cats.length === 0) getCats({ page: catsState.page, limit: LIMIT });
   }, []);
 
   useEffect(() => {
-    if (catsState.page > 0) getCats({ page: catsState.page, limit: 15 });
-  }, [catsState.page]);
-
-  useEffect(() => {
     if (user && favorites.length === 0)
-      getFavorites({ token: user.token, page: favoritesState.page, limit: 15 });
+      getFavorites({
+        token: user.token,
+        page: favoritesState.page,
+        limit: LIMIT,
+      });
   }, [user]);
 
   useEffect(() => {
@@ -37,7 +38,10 @@ const Cats = () => {
   }, [cats.length]);
 
   const nextPage = () => {
-    catPageInc();
+    if (user) {
+      getCats({ page: catsState.page + 1, limit: LIMIT });
+      catPageInc();
+    }
   };
 
   return (
