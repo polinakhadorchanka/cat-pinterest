@@ -1,17 +1,13 @@
 ## Для запуска
 
-> cd ./front
-> 
-> npm install
-> 
+> cd ./front  
+> npm install  
 > docker build -t cat-pinterest-front .
 
 > cd ../
 
-> cd ./api
-> 
-> npm install
-> 
+> cd ./api  
+> npm install  
 > docker build -t cat-pinterest-api .
 
 > cd ../
