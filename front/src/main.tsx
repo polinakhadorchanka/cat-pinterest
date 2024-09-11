@@ -5,8 +5,9 @@ import App from './app/App.tsx';
 import './styles/index.css';
 import { store } from './store/store.ts';
 import { Provider } from 'react-redux';
+import { VITE_API_URL } from './types/constants.ts';
 
-console.log(import.meta.env);
+console.log(import.meta.env, 'VITE_API_URL: ', VITE_API_URL);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

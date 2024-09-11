@@ -2,6 +2,7 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Favorite, FavoritesResponse } from '../../types/favorite.ts';
 import { Cat } from '../../types/cat.ts';
+import { VITE_API_URL } from '../../types/constants.ts';
 
 const apiGetFavorites = (
   token: string,
@@ -11,7 +12,7 @@ const apiGetFavorites = (
   return new Promise(async (resolve, reject) => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/favorites`,
+        `${import.meta.env.VITE_API_URL ?? VITE_API_URL}/favorites`,
         {
           params: {
             page,
@@ -34,7 +35,7 @@ const apiAddToFavorites = (token: string, cat: Cat): Promise<Favorite> => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/favorites`,
+        `${import.meta.env.VITE_API_URL ?? VITE_API_URL}/favorites`,
         cat,
         {
           headers: {
@@ -57,7 +58,7 @@ const apiDeleteFromFavorites = (
   return new Promise(async (resolve, reject) => {
     try {
       const { data } = await axios.delete(
-        `${import.meta.env.VITE_API_URL}/favorites`,
+        `${import.meta.env.VITE_API_URL ?? VITE_API_URL}/favorites`,
         {
           params: {
             id: favoriteID,

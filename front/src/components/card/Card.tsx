@@ -62,7 +62,7 @@ const Card: FC<CardProps> = ({ cat }) => {
         />
         <Like
           className={
-            'absolute hidden group-hover:block cursor-pointer bottom-5 right-5 xl:bottom-6 xl:right-6'
+            'absolute hidden group-hover:block cursor-pointer bottom-5 right-5 xl:bottom-6 xl:right-6 z-[5]'
           }
           isActive={isActive}
           onActive={onActive}

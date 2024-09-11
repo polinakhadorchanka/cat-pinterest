@@ -15,7 +15,7 @@ const Like: FC<LikeProps> = ({ isActive, onActive, onInactive, className }) => {
   return (
     <div
       onClick={onClickAction}
-      className={`min-w-12 min-h-12 bg-no-repeat bg-center 
+      className={`min-w-12 min-h-12 bg-no-repeat bg-center bg-contain
       ${isActive ? 'bg-like_fill' : 'bg-like'} hover:bg-like_fill ${className}`}></div>
   );
 };

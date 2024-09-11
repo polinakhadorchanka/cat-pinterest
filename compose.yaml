@@ -21,6 +21,8 @@ services:
     image: cat-pinterest-api
     build:
       context: ./api/
+    ports:
+      - "3000:3000"
     networks:
       - cat-pinterest-net
     environment:
